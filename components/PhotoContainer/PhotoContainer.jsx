@@ -4,7 +4,7 @@ import styles from "./PhotoContainer.module.css";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { AppContext } from "../../pages/context/AppContext";
+import { AppContext } from "../../context/AppContext";
 
 export const PhotoContainer = ({ id }) => {
   const { reloadAll } = useContext(AppContext);
