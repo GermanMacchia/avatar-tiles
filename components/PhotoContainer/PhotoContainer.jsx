@@ -1,4 +1,4 @@
-import React, {  useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import fetchPhoto from "../../pages/api/fetchPhoto";
 import styles from "./PhotoContainer.module.css";
 import Image from "next/image";
@@ -21,11 +21,17 @@ export const PhotoContainer = ({ id }) => {
   );
 
   useEffect(() => {
+    if(error){
+      throw new Error(error.message)
+    }
+  }, [error]);
+  
+  useEffect(() => {
     if (reloadAll.reload) {
       refetch();
       reloadAll.setReload(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadAll.reload]);
 
   return (
