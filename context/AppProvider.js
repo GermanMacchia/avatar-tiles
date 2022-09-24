@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { AppContext } from "./AppContext";
 
 export const AppProvider = ({ children }) => {
+  const initialSSR = 5
   const [reload, setReload] = useState(false);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(initialSSR);
 
   const initialData = {
     avatarQuantity: {

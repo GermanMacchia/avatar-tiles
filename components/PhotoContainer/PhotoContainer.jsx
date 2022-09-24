@@ -30,7 +30,6 @@ export const PhotoContainer = ({ id }) => {
 
   return (
     <div className={styles.container} onClick={refetch}>
-      {console.count("tile" + id)}
       {!isLoading && data ? (
         <Image
           className={styles.container__profile_image}
