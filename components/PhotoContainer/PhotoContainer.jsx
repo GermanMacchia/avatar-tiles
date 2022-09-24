@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useContext } from "react";
+import React, {  useEffect, useContext } from "react";
 import fetchPhoto from "../../pages/api/fetchPhoto";
 import styles from "./PhotoContainer.module.css";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { AppContext } from "../../pages/context/AppContext";
 
-export const PhotoContainer = memo(({ id }) => {
+export const PhotoContainer = ({ id }) => {
   const { reloadAll } = useContext(AppContext);
   const { isLoading, data, isFetching, error, refetch } = useQuery(
     [`tile ${id}`],
@@ -25,6 +25,7 @@ export const PhotoContainer = memo(({ id }) => {
       refetch();
       reloadAll.setReload(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadAll.reload]);
 
   return (
@@ -55,4 +56,4 @@ export const PhotoContainer = memo(({ id }) => {
       )}
     </div>
   );
-});
+};
