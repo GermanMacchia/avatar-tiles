@@ -27,7 +27,7 @@ export default function Home({ data }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const initialValue = 5;
   const data = await fetchPhoto(initialValue);
   return { props: { data } };
