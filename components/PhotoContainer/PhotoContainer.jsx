@@ -1,46 +1,49 @@
-import React, { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
+import { useQuery, useQueryClient  } from "@tanstack/react-query";
+import { motion } from "framer-motion";
+import { AppContext } from "../../context/AppContext";
 import fetchPhoto from "../../pages/api/fetchPhoto";
 import styles from "./PhotoContainer.module.css";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import { AppContext } from "../../context/AppContext";
 
-export const PhotoContainer = ({ id }) => {
+export const PhotoContainer = ({ id, upstreamData = null  }) => {
+  const queryClient = useQueryClient()
   const { reloadAll } = useContext(AppContext);
   const { isLoading, data, isFetching, error, refetch } = useQuery(
     [`tile ${id}`],
     () => fetchPhoto(),
     {
       refetchOnWindowFocus: false,
-      select: (data) => {
-        const photo = data[0];
-        return photo;
-      },
+      select: (data) => data[0],
     }
   );
 
   useEffect(() => {
-    if(error){
-      throw new Error(error.message)
+    if(upstreamData){
+      queryClient.invalidateQueries([`tile ${id}`])
+    }
+  }, [upstreamData]);
+
+  useEffect(() => {
+    if (error) {
+      throw new Error(error.message);
     }
   }, [error]);
-  
+
   useEffect(() => {
     if (reloadAll.reload) {
       refetch();
       reloadAll.setReload(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadAll.reload]);
 
   return (
     <div className={styles.container} onClick={refetch}>
-      {!isLoading && data ? (
+      {((!isLoading && data) || upstreamData)? (
         <Image
           className={styles.container__profile_image}
-          src={data?.url}
-          alt={data?.name}
+          src={data?.url || upstreamData?.url}
+          alt={data?.name || upstreamData?.name}
           layout="fill"
         />
       ) : (
