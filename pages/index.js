@@ -21,9 +21,9 @@ export default function Home({ data }) {
   return (
     <>
       <div className={styles["grid-container"]}>
-        {data?.map((photo) => (
+        {data?.map((photo, idx) => (
           <ErrorBoundary key={photo.id}>
-            <PhotoContainer id={photo.id} upstreamData={data} />
+            <PhotoContainer id={photo.id} upstreamData={data[idx]} />
           </ErrorBoundary>
         ))}
         <PhotoList />
