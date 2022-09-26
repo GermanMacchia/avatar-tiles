@@ -7,7 +7,7 @@ import fetchPhoto from "../../pages/api/fetchPhoto";
 import styles from "./PhotoContainer.module.css";
 import Image from "next/image";
 
-export const PhotoContainer = ({ id, upstreamData = null  }) => {
+export const PhotoContainer = ({ id, upstreamData = null }) => {
   const { reloadAll } = useContext(AppContext);
   const [photo, setPhoto] = useState(upstreamData);
   const { data, isFetching, error, refetch } = useQuery(
@@ -21,16 +21,16 @@ export const PhotoContainer = ({ id, upstreamData = null  }) => {
   );
 
   useEffect(() => {
-    if(!photo){
-      refetch()
+    if (!photo) {
+      refetch();
     }
-  },[]);
+  }, []);
 
-  useEffect(()=>{
-    if(data){
-      setPhoto(data)
+  useEffect(() => {
+    if (data) {
+      setPhoto(data);
     }
-  },[data])
+  }, [data]);
 
   useEffect(() => {
     if (error) {
@@ -47,7 +47,7 @@ export const PhotoContainer = ({ id, upstreamData = null  }) => {
 
   return (
     <div className={styles.container} onClick={refetch}>
-      { !isFetching && photo ? (
+      {!isFetching && photo ? (
         <Image
           className={styles.container__profile_image}
           src={photo?.url}
